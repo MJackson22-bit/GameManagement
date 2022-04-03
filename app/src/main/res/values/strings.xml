@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Practice 3</string>
+    <string name="nombre_del_juego">Nombre del juego</string>
+    <string name="compa_a">Compañía</string>
+    <string name="ingrese_un_nuevo_juego">INGRESE UN NUEVO JUEGO</string>
+    <string name="nombre">Nombre</string>
+    <string name="url_image">URL Image</string>
+    <string name="descripci_n">Descripción</string>
+    <string name="guardar">GUARDAR</string>
+    <string name="nuevo_juego">Nuevo Juego</string>
+    <string name="salir">Salir</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="editar">Editar</string>
+    <string name="icono">Icono</string>
+    <string name="desea_eliminar_este_elemento">¿Desea eliminar este elemento?</string>
+    <string-array name="arrayCategory">
+        <item>Acción</item>
+        <item>Aventura</item>
+        <item>Carreras</item>
+        <item>Cartas</item>
+        <item>Casino</item>
+        <item>Educativos</item>
+        <item>Estrategia</item>
+        <item>Música</item>
+    </string-array>
+</resources>
