@@ -3,15 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="16dp"
-    app:cardElevation="1dp"
-    app:cardCornerRadius="10dp"
+    android:id="@+id/card"
+    android:clickable="true"
+    app:cardCornerRadius="1dp"
     app:cardBackgroundColor="#FFFFFF"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:focusable="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_drawable">
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/ivImage"
             android:layout_width="100dp"
@@ -54,6 +56,14 @@
             app:layout_constraintStart_toEndOf="@id/ivImage"
             app:layout_constraintTop_toBottomOf="@id/tvCompany"
             tools:ignore="SmallSp" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#4D979797"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ivImage"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </androidx.cardview.widget.CardView>
