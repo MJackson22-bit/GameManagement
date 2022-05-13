@@ -81,8 +81,7 @@ class DetailActivity : AppCompatActivity() {
             R.id.menuDetailDelete -> {
                 val alertDialog: AlertDialog = this.let {
                     val builder = AlertDialog.Builder(it)
-                    builder.setTitle("Caja de diálogo")
-                        .setMessage("R.string.desea_eliminar_este_elemento")
+                    builder.setMessage("¿Desea eliminar este elemento?")
                         .setNegativeButton(R.string.eliminar, DialogInterface.OnClickListener { dialog, which ->
                             var i = 0
                             GameProvider.gameList.forEach { gameDelete ->
@@ -111,12 +110,12 @@ class DetailActivity : AppCompatActivity() {
 
 //                    builder.create()
 //                } ?: throw IllegalStateException("")
-//                alertDialog.show()
-//                val window: Window? = alertDialog.window
-//                val windowManager: WindowManager.LayoutParams? = window?.attributes
-//                windowManager?.gravity = Gravity.BOTTOM
-//                window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-//                window!!.attributes = windowManager
+                alertDialog.show()
+                val window: Window? = alertDialog.window
+                val windowManager: WindowManager.LayoutParams? = window?.attributes
+                windowManager?.gravity = Gravity.BOTTOM
+                window?.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+                window!!.attributes = windowManager
                 return true
             }
             else -> {

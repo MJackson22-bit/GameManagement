@@ -31,6 +31,11 @@ class MainActivity : AppCompatActivity() {
                 binding.fabAddGame.extend();
             }
         }
+        binding.fabAddGame.setOnClickListener {
+            val intent = Intent(this, AddGameActivity::class.java)
+            intent.putExtra("IS_EDIT", false)
+            startActivity(intent)
+        }
         iniRecyclerView()
     }
 
