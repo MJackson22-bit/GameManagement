@@ -13,6 +13,8 @@
     <string name="editar">Editar</string>
     <string name="icono">Icono</string>
     <string name="desea_eliminar_este_elemento">¿Desea eliminar este elemento?</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="agregar_juego">Agregar Juego</string>
     <string-array name="arrayCategory">
         <item>Acción</item>
         <item>Aventura</item>

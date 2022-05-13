@@ -19,6 +19,8 @@ class AddGameActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
     private var bundle: Bundle? = null
     private var game: Game? = null
     var id: Int? = 0
+    var detail: Boolean? = null
+    var idDetail: Int? = 0
     var position: Int? = 0
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,23 +30,26 @@ class AddGameActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
         binding.spinnerCategory.onItemSelectedListener = this
         bundle = intent.extras
         id = bundle?.getInt("ID")
-        Log.i("ID_EDIT", id.toString())
+        detail = bundle?.getBoolean("detail")
+        idDetail = bundle?.getInt("ID_DETAIL")
+        Log.i("ID_EDIT", detail.toString())
         isEdit = bundle?.getBoolean("IS_EDIT")
         if(GameProvider.gameList.isNotEmpty()){
-            var i = 0
-            GameProvider.gameList.forEach {
-                if (it.id == id){
-                    game = GameProvider.gameList[i]
-                    position = i
+            if(detail == true){
+                var i = 0
+                GameProvider.gameList.forEach {
+                    if (it.id == idDetail){
+                        game = GameProvider.gameList[i]
+                        position = i
+                    }
+                    i++
                 }
-                i++
+            }else{
+                position = id
+                game = GameProvider.gameList[position!!]
             }
             verifyEdit()
         }
-//        val categoryArray = resources.getStringArray(R.array.arrayCategory)
-//        val arrayAdapter: ArrayAdapter<String> = ArrayAdapter<String>(applicationContext, R.layout.simple_spinner_item, categoryArray)
-//        arrayAdapter.setDropDownViewResource(R.layout.drop_down_item)
-//        binding.spinnerCategory.adapter = arrayAdapter
     }
 
 

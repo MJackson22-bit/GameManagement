@@ -37,7 +37,6 @@ class GameViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnCreateC
                 Snackbar.make(itemView, "Error al cargar algunas de las imágenes", Snackbar.LENGTH_SHORT).show()
                 return false
             }
-
             override fun onResourceReady(
                 resource: Drawable?,
                 model: Any?,
