@@ -16,6 +16,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.example.practice3.R
 import com.example.practice3.databinding.ActivityDetailBinding
+import com.example.practice3.db.SQLiteHelperGame
 import com.example.practice3.model.Game
 import com.example.practice3.provider.GameProvider
 import com.google.android.material.snackbar.Snackbar
@@ -27,24 +28,32 @@ class DetailActivity : AppCompatActivity() {
     private var id: Int? = 0
     private var position: Int? = 0
     private var game: Game? = null
+    lateinit var sqLiteHelperGame: SQLiteHelperGame
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        sqLiteHelperGame = SQLiteHelperGame(this)
         bundle = intent.extras
         id = bundle?.getInt("GAME_DETAIL")
-        Log.i("IndexBound", id.toString())
-        if (GameProvider.gameList.isNotEmpty() && id != null) {
-            var i = 0
-            GameProvider.gameList.forEach {
-                if (it.id == id) {
-                    Log.i("Foreach", i.toString())
-                    game = GameProvider.gameList[i]
-                }
-                i++
-            }
-            showDetail()
-        }
+//        Log.i("IndexBound", id.toString())
+//        if (GameProvider.gameList.isNotEmpty() && id != null) {
+//            var i = 0
+//            GameProvider.gameList.forEach {
+//                if (it.id == id) {
+//                    Log.i("Foreach", i.toString())
+//                    game = GameProvider.gameList[i]
+//                }
+//                i++
+//            }
+//            showDetail()
+//        }
+        getGame()
+        showDetail()
+    }
+
+    private fun getGame() {
+        game = sqLiteHelperGame.geGame(id)
     }
 
     private fun showDetail() {
@@ -53,7 +62,6 @@ class DetailActivity : AppCompatActivity() {
         binding.tvCompany.text = game?.company
         binding.tvDescription.text = game?.description
         getImage()
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

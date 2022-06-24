@@ -7,10 +7,12 @@ import android.database.sqlite.SQLiteOpenHelper
 import com.example.practice3.db.entities.GameContracts
 import com.example.practice3.model.Game
 
-class SQLiteHelperGame(private val context: Context) : SQLiteOpenHelper(context, "games.db", null, 1) {
+class SQLiteHelperGame(private val context: Context) :
+    SQLiteOpenHelper(context, "games.db", null, 1) {
     private val listGame = ArrayList<Game>()
     private var game: Game? = null
-    companion object{
+
+    companion object {
         const val QUERY_INSERT = "CREATE TABLE ${GameContracts.GameEntry.TABLE_NAME} " +
                 "(id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "${GameContracts.GameEntry.COLUMN_NAME} TEXT," +
@@ -20,6 +22,7 @@ class SQLiteHelperGame(private val context: Context) : SQLiteOpenHelper(context,
                 "${GameContracts.GameEntry.COLUMN_DESCRIPTION} TEXT)"
         const val QUERY_DROP = "DROP TABLE IF EXISTS ${GameContracts.GameEntry.TABLE_NAME}"
     }
+
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(QUERY_INSERT)
     }
@@ -29,7 +32,7 @@ class SQLiteHelperGame(private val context: Context) : SQLiteOpenHelper(context,
         onCreate(db)
     }
 
-    fun insertGame(game: Game){
+    fun insertGame(game: Game) {
         val data = ContentValues()
         data.put("name", game.name)
         data.put("company", game.company)
@@ -41,11 +44,41 @@ class SQLiteHelperGame(private val context: Context) : SQLiteOpenHelper(context,
         db.close()
     }
 
-    fun getAllGame(): ArrayList<Game>{
+    fun getAllGame(): ArrayList<Game> {
         listGame.clear()
         val db: SQLiteDatabase = this.readableDatabase
         val cursor = db.rawQuery(
             "SELECT * FROM ${GameContracts.GameEntry.TABLE_NAME}",
+            null
+        )
+        if (cursor.moveToFirst()) {
+            do {
+                game = Game(
+                    cursor.getInt(0),
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    cursor.getString(3),
+                    cursor.getString(4),
+                    cursor.getString(5)
+                )
+                listGame.add(game!!)
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        return listGame
+    }
+
+    fun geGame(id: Int?): Game? {
+        val db = this.readableDatabase
+        val cursor = db.rawQuery(
+            "SELECT id," +
+                    "${GameContracts.GameEntry.COLUMN_NAME}," +
+                    "${GameContracts.GameEntry.COLUMN_COMPANY}," +
+                    "${GameContracts.GameEntry.COLUMN_CATEGORY}," +
+                    "${GameContracts.GameEntry.COLUMN_IMAGE}," +
+                    "${GameContracts.GameEntry.COLUMN_DESCRIPTION} " +
+                    "FROM ${GameContracts.GameEntry.TABLE_NAME} " +
+                    " WHERE id = $id",
             null
         )
         if(cursor.moveToFirst()){
@@ -58,10 +91,17 @@ class SQLiteHelperGame(private val context: Context) : SQLiteOpenHelper(context,
                     cursor.getString(4),
                     cursor.getString(5)
                 )
-                listGame.add(game!!)
             }while (cursor.moveToNext())
         }
         cursor.close()
-        return listGame
+        return game
+    }
+
+    fun deleteGame(id: Int): Int {
+        val args = arrayOf(id.toString())
+        val db = this.writableDatabase
+        val deleteCount = db.delete(GameContracts.GameEntry.TABLE_NAME, "id = ?", args)
+        db.close()
+        return deleteCount
     }
 }
