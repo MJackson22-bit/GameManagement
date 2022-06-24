@@ -24,7 +24,6 @@ class AddGameActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
     var id: Int? = 0
     var detail: Boolean? = null
     var idDetail: Int? = 0
-    var position: Int? = 0
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,22 +37,7 @@ class AddGameActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
         idDetail = bundle?.getInt("ID_DETAIL")
         Log.i("ID_EDIT", detail.toString())
         isEdit = bundle?.getBoolean("IS_EDIT")
-        if(GameProvider.gameList.isNotEmpty()){
-            if(detail == true){
-                var i = 0
-                GameProvider.gameList.forEach {
-                    if (it.id == idDetail){
-                        game = GameProvider.gameList[i]
-                        position = i
-                    }
-                    i++
-                }
-            }else{
-                position = id
-                game = GameProvider.gameList[position!!]
-            }
-            verifyEdit()
-        }
+        verifyEdit()
     }
     
     @RequiresApi(Build.VERSION_CODES.N)
@@ -82,7 +66,7 @@ class AddGameActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
         game?.description = binding.etDescription.text.toString()
         game?.image = binding.etImage.text.toString()
         game?.category = category
-        GameProvider.gameList[position!!] = game!!
+        sqLiteHelperGame.updateGame(game, idDetail)
 //        id?.let { GameProvider.gameList.removeAt(it) }
 //        game?.let { id?.let { it1 -> GameProvider.gameList.add(it1, it) } }
     }
@@ -100,6 +84,8 @@ class AddGameActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
     }
 
     private fun chargeItemEdit() {
+        game = sqLiteHelperGame.getGame(idDetail)
+        Log.i("Contain", game.toString())
         binding.etName.setText(game?.name)
         binding.etCompany.setText(game?.company)
         binding.etImage.setText(game?.image)

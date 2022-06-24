@@ -104,4 +104,16 @@ class SQLiteHelperGame(private val context: Context) :
         db.close()
         return deleteCount
     }
+
+    fun updateGame(game: Game?, id: Int?) {
+        val data = ContentValues()
+        data.put("name", game?.name)
+        data.put("company", game?.company)
+        data.put("category", game?.category)
+        data.put("image", game?.image)
+        data.put("description", game?.description)
+        val db = this.writableDatabase
+        db.update(GameContracts.GameEntry.TABLE_NAME, data, "id = ?", arrayOf(id.toString()))
+        db.close()
+    }
 }

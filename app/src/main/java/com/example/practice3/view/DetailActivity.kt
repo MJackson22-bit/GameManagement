@@ -27,7 +27,7 @@ class DetailActivity : AppCompatActivity() {
     private var bundle: Bundle? = null
     private var id: Int? = 0
     private var game: Game? = null
-    lateinit var sqLiteHelperGame: SQLiteHelperGame
+    private lateinit var sqLiteHelperGame: SQLiteHelperGame
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
@@ -35,15 +35,10 @@ class DetailActivity : AppCompatActivity() {
         sqLiteHelperGame = SQLiteHelperGame(this)
         bundle = intent.extras
         id = bundle?.getInt("GAME_DETAIL")
-        getGame()
         showDetail()
     }
-
-    private fun getGame() {
-        game = sqLiteHelperGame.getGame(id)
-    }
-
     private fun showDetail() {
+        game = sqLiteHelperGame.getGame(id)
         binding.tvName.text = game?.name.toString()
         binding.tvCategory.text = game?.category
         binding.tvCompany.text = game?.company
@@ -79,16 +74,16 @@ class DetailActivity : AppCompatActivity() {
                     val builder = AlertDialog.Builder(it)
                     builder.setMessage("¿Desea eliminar este elemento?")
                         .setPositiveButton(
-                            R.string.eliminar,
-                            DialogInterface.OnClickListener { _, _ ->
-                                sqLiteHelperGame.deleteGame(game?.id)
-                                it.finish()
-                            })
+                            R.string.eliminar
+                        ) { _, _ ->
+                            sqLiteHelperGame.deleteGame(game?.id)
+                            it.finish()
+                        }
                         .setNegativeButton(
-                            R.string.cancelar,
-                            DialogInterface.OnClickListener { dialog, _ ->
-                                dialog.cancel()
-                            })
+                            R.string.cancelar
+                        ) { dialog, _ ->
+                            dialog.cancel()
+                        }
                     builder.create()
                 }
                 alertDialog.show()
