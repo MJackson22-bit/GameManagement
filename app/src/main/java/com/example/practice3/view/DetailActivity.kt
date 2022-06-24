@@ -26,7 +26,6 @@ class DetailActivity : AppCompatActivity() {
     lateinit var binding: ActivityDetailBinding
     private var bundle: Bundle? = null
     private var id: Int? = 0
-    private var position: Int? = 0
     private var game: Game? = null
     lateinit var sqLiteHelperGame: SQLiteHelperGame
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +40,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun getGame() {
-        game = sqLiteHelperGame.geGame(id)
+        game = sqLiteHelperGame.getGame(id)
     }
 
     private fun showDetail() {
@@ -79,13 +78,17 @@ class DetailActivity : AppCompatActivity() {
                 val alertDialog: AlertDialog = this.let {
                     val builder = AlertDialog.Builder(it)
                     builder.setMessage("¿Desea eliminar este elemento?")
-                        .setPositiveButton(R.string.eliminar, DialogInterface.OnClickListener { _, _ ->
-                            sqLiteHelperGame.deleteGame(game?.id)
-                            it.finish()
-                        })
-                        .setNegativeButton(R.string.cancelar, DialogInterface.OnClickListener { dialog, _ ->
-                            dialog.cancel()
-                        })
+                        .setPositiveButton(
+                            R.string.eliminar,
+                            DialogInterface.OnClickListener { _, _ ->
+                                sqLiteHelperGame.deleteGame(game?.id)
+                                it.finish()
+                            })
+                        .setNegativeButton(
+                            R.string.cancelar,
+                            DialogInterface.OnClickListener { dialog, _ ->
+                                dialog.cancel()
+                            })
                     builder.create()
                 }
                 alertDialog.show()

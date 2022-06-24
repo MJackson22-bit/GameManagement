@@ -68,7 +68,7 @@ class SQLiteHelperGame(private val context: Context) :
         return listGame
     }
 
-    fun geGame(id: Int?): Game? {
+    fun getGame(id: Int?): Game? {
         val db = this.readableDatabase
         val cursor = db.rawQuery(
             "SELECT id," +
@@ -81,8 +81,8 @@ class SQLiteHelperGame(private val context: Context) :
                     " WHERE id = $id",
             null
         )
-        if(cursor.moveToFirst()){
-            do{
+        if (cursor.moveToFirst()) {
+            do {
                 game = Game(
                     cursor.getInt(0),
                     cursor.getString(1),
@@ -91,7 +91,7 @@ class SQLiteHelperGame(private val context: Context) :
                     cursor.getString(4),
                     cursor.getString(5)
                 )
-            }while (cursor.moveToNext())
+            } while (cursor.moveToNext())
         }
         cursor.close()
         return game
