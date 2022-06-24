@@ -36,18 +36,6 @@ class DetailActivity : AppCompatActivity() {
         sqLiteHelperGame = SQLiteHelperGame(this)
         bundle = intent.extras
         id = bundle?.getInt("GAME_DETAIL")
-//        Log.i("IndexBound", id.toString())
-//        if (GameProvider.gameList.isNotEmpty() && id != null) {
-//            var i = 0
-//            GameProvider.gameList.forEach {
-//                if (it.id == id) {
-//                    Log.i("Foreach", i.toString())
-//                    game = GameProvider.gameList[i]
-//                }
-//                i++
-//            }
-//            showDetail()
-//        }
         getGame()
         showDetail()
     }
@@ -91,21 +79,12 @@ class DetailActivity : AppCompatActivity() {
                 val alertDialog: AlertDialog = this.let {
                     val builder = AlertDialog.Builder(it)
                     builder.setMessage("¿Desea eliminar este elemento?")
-                        .setNegativeButton(R.string.eliminar, DialogInterface.OnClickListener { dialog, which ->
-                            var i = 0
-                            GameProvider.gameList.forEach { gameDelete ->
-                                if (gameDelete.id == game?.id) {
-                                    Log.i("RemoveDetail", "${game?.id} == ${gameDelete.id}")
-                                    position = i
-                                }
-                                i++
-                            }
-                            position?.let { it -> GameProvider.gameList.removeAt(it) }
-                            Log.i("ListRemove", GameProvider.gameList.toString())
-                            this.finish()
+                        .setPositiveButton(R.string.eliminar, DialogInterface.OnClickListener { _, _ ->
+                            sqLiteHelperGame.deleteGame(game?.id)
+                            it.finish()
                         })
-                        .setPositiveButton(R.string.cancelar, DialogInterface.OnClickListener { dialog, which ->
-                            //Hacer lo otro
+                        .setNegativeButton(R.string.cancelar, DialogInterface.OnClickListener { dialog, _ ->
+                            dialog.cancel()
                         })
                     builder.create()
                 }

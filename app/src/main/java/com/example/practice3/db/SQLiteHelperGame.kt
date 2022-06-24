@@ -97,7 +97,7 @@ class SQLiteHelperGame(private val context: Context) :
         return game
     }
 
-    fun deleteGame(id: Int): Int {
+    fun deleteGame(id: Int?): Int {
         val args = arrayOf(id.toString())
         val db = this.writableDatabase
         val deleteCount = db.delete(GameContracts.GameEntry.TABLE_NAME, "id = ?", args)
