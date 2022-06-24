@@ -1,6 +1,7 @@
 package com.example.practice3.view
 
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,16 +12,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.practice3.R
 import com.example.practice3.adapter.GameAdapter
 import com.example.practice3.databinding.ActivityMainBinding
+import com.example.practice3.db.SQLiteHelperGame
+import com.example.practice3.db.entities.GameContracts
 import com.example.practice3.model.Game
 import com.example.practice3.provider.GameProvider
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
+    lateinit var sqLiteHelperGame: SQLiteHelperGame
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        sqLiteHelperGame = SQLiteHelperGame(this)
         binding.nestedScroll.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
             if (scrollY > oldScrollY + 12 && binding.fabAddGame.isExtended) {
                 binding.fabAddGame.shrink();
@@ -44,13 +49,14 @@ class MainActivity : AppCompatActivity() {
         val recyclerView = binding.recyclerGame
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter =
-            GameAdapter(GameProvider.gameList) { game ->
+            GameAdapter(sqLiteHelperGame.getAllGame()) { game ->
                 onItemSelected(game)
             }
     }
 
     override fun onResume() {
         super.onResume()
+        sqLiteHelperGame.getAllGame()
         iniRecyclerView()
     }
 

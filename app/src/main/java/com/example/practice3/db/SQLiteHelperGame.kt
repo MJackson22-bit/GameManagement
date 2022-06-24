@@ -8,6 +8,8 @@ import com.example.practice3.db.entities.GameContracts
 import com.example.practice3.model.Game
 
 class SQLiteHelperGame(private val context: Context) : SQLiteOpenHelper(context, "games.db", null, 1) {
+    private val listGame = ArrayList<Game>()
+    private var game: Game? = null
     companion object{
         const val QUERY_INSERT = "CREATE TABLE ${GameContracts.GameEntry.TABLE_NAME} " +
                 "(id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -37,5 +39,29 @@ class SQLiteHelperGame(private val context: Context) : SQLiteOpenHelper(context,
         val db = this.writableDatabase
         db.insert(GameContracts.GameEntry.TABLE_NAME, null, data)
         db.close()
+    }
+
+    fun getAllGame(): ArrayList<Game>{
+        listGame.clear()
+        val db: SQLiteDatabase = this.readableDatabase
+        val cursor = db.rawQuery(
+            "SELECT * FROM ${GameContracts.GameEntry.TABLE_NAME}",
+            null
+        )
+        if(cursor.moveToFirst()){
+            do{
+                game = Game(
+                    cursor.getInt(0),
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    cursor.getString(3),
+                    cursor.getString(4),
+                    cursor.getString(5)
+                )
+                listGame.add(game!!)
+            }while (cursor.moveToNext())
+        }
+        cursor.close()
+        return listGame
     }
 }
