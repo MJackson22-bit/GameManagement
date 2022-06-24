@@ -12,13 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Practice3">
         <activity
-            android:name=".AddGameActivity"
+            android:name=".view.AddGameActivity"
             android:exported="false" />
         <activity
-            android:name=".DetailActivity"
+            android:name=".view.DetailActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".view.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

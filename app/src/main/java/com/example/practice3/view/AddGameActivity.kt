@@ -1,4 +1,4 @@
-package com.example.practice3
+package com.example.practice3.view
 
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import com.example.practice3.R
 import com.example.practice3.databinding.ActivityAddGameBinding
+import com.example.practice3.db.SQLiteHelperGame
 import com.example.practice3.model.Game
 import com.example.practice3.provider.GameProvider
 
@@ -18,6 +20,7 @@ class AddGameActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
     private var isEdit: Boolean? = null
     private var bundle: Bundle? = null
     private var game: Game? = null
+    lateinit var sqLiteHelperGame: SQLiteHelperGame
     var id: Int? = 0
     var detail: Boolean? = null
     var idDetail: Int? = 0
@@ -27,6 +30,7 @@ class AddGameActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
         super.onCreate(savedInstanceState)
         binding = ActivityAddGameBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        sqLiteHelperGame = SQLiteHelperGame(this)
         binding.spinnerCategory.onItemSelectedListener = this
         bundle = intent.extras
         id = bundle?.getInt("ID")
@@ -51,8 +55,7 @@ class AddGameActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
             verifyEdit()
         }
     }
-
-
+    
     @RequiresApi(Build.VERSION_CODES.N)
     private fun verifyEdit() {
         if (bundle != null) {
@@ -65,6 +68,7 @@ class AddGameActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
             } else {
                 binding.btnSaveGame.setOnClickListener {
                     saveGame()
+                    Toast.makeText(this, "Se ha guardado exitosamente", Toast.LENGTH_SHORT).show()
                     onBackPressed()
                 }
             }
@@ -126,8 +130,9 @@ class AddGameActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
             binding.etImage.text.toString(),
             binding.etDescription.text.toString()
         )
-        Log.i("SaveIndexBound", GameProvider.gameList.last().toString())
-        GameProvider.gameList.add(game)
-        Log.i("Lista después", GameProvider.gameList.toString())
+        sqLiteHelperGame.insertGame(game)
+//        Log.i("SaveIndexBound", GameProvider.gameList.last().toString())
+//        GameProvider.gameList.add(game)
+//        Log.i("Lista después", GameProvider.gameList.toString())
     }
 }

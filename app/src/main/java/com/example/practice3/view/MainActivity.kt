@@ -1,4 +1,4 @@
-package com.example.practice3
+package com.example.practice3.view
 
 import android.content.Intent
 import android.os.Build
@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.practice3.R
 import com.example.practice3.adapter.GameAdapter
 import com.example.practice3.databinding.ActivityMainBinding
 import com.example.practice3.model.Game

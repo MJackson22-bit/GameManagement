@@ -1,4 +1,4 @@
-package com.example.practice3
+package com.example.practice3.view
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -14,6 +14,7 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.example.practice3.R
 import com.example.practice3.databinding.ActivityDetailBinding
 import com.example.practice3.model.Game
 import com.example.practice3.provider.GameProvider
@@ -100,16 +101,6 @@ class DetailActivity : AppCompatActivity() {
                         })
                     builder.create()
                 }
-                alertDialog.show()
-                //game?.id?.let { GameProvider.gameList.removeAt(it) }
-//                val alertDialog: AlertDialog = this.let {
-//                   val builder = AlertDialog.Builder(it)
-//                    val inflater = layoutInflater
-//                    builder.setView(inflater.inflate(R.layout.dialog_delete_item, null))
-
-
-//                    builder.create()
-//                } ?: throw IllegalStateException("")
                 alertDialog.show()
                 val window: Window? = alertDialog.window
                 val windowManager: WindowManager.LayoutParams? = window?.attributes
