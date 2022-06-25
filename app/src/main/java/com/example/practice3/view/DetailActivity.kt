@@ -18,7 +18,6 @@ import com.example.practice3.R
 import com.example.practice3.databinding.ActivityDetailBinding
 import com.example.practice3.db.SQLiteHelperGame
 import com.example.practice3.model.Game
-import com.example.practice3.provider.GameProvider
 import com.google.android.material.snackbar.Snackbar
 
 
@@ -63,7 +62,7 @@ class DetailActivity : AppCompatActivity() {
             R.id.menuDetailEdit -> {
                 val intent = Intent(this, AddGameActivity::class.java)
                 Log.i("Detail", game?.id.toString())
-                intent.putExtra("ID_DETAIL", game?.id)
+                intent.putExtra("ID", game?.id)
                 intent.putExtra("IS_EDIT", true)
                 intent.putExtra("detail", true)
                 startActivity(intent)

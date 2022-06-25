@@ -23,7 +23,6 @@ class AddGameActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
     lateinit var sqLiteHelperGame: SQLiteHelperGame
     var id: Int? = 0
     var detail: Boolean? = null
-    var idDetail: Int? = 0
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,8 +33,7 @@ class AddGameActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
         bundle = intent.extras
         id = bundle?.getInt("ID")
         detail = bundle?.getBoolean("detail")
-        idDetail = bundle?.getInt("ID_DETAIL")
-        Log.i("ID_EDIT", detail.toString())
+        Log.i("ID_EDIT", id.toString())
         isEdit = bundle?.getBoolean("IS_EDIT")
         verifyEdit()
     }
@@ -66,9 +64,7 @@ class AddGameActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
         game?.description = binding.etDescription.text.toString()
         game?.image = binding.etImage.text.toString()
         game?.category = category
-        sqLiteHelperGame.updateGame(game, idDetail)
-//        id?.let { GameProvider.gameList.removeAt(it) }
-//        game?.let { id?.let { it1 -> GameProvider.gameList.add(it1, it) } }
+        sqLiteHelperGame.updateGame(game, id)
     }
 
     private fun getCategory(): Int {
@@ -84,7 +80,7 @@ class AddGameActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
     }
 
     private fun chargeItemEdit() {
-        game = sqLiteHelperGame.getGame(idDetail)
+        game = sqLiteHelperGame.getGame(id)
         Log.i("Contain", game.toString())
         binding.etName.setText(game?.name)
         binding.etCompany.setText(game?.company)
@@ -117,8 +113,5 @@ class AddGameActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener 
             binding.etDescription.text.toString()
         )
         sqLiteHelperGame.insertGame(game)
-//        Log.i("SaveIndexBound", GameProvider.gameList.last().toString())
-//        GameProvider.gameList.add(game)
-//        Log.i("Lista después", GameProvider.gameList.toString())
     }
 }

@@ -1,11 +1,9 @@
 package com.example.practice3.view
 
 import android.content.Intent
-import android.database.sqlite.SQLiteDatabase
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,9 +11,8 @@ import com.example.practice3.R
 import com.example.practice3.adapter.GameAdapter
 import com.example.practice3.databinding.ActivityMainBinding
 import com.example.practice3.db.SQLiteHelperGame
-import com.example.practice3.db.entities.GameContracts
 import com.example.practice3.model.Game
-import com.example.practice3.provider.GameProvider
+import com.example.practice3.provider.ProviderIdContextMenu
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -46,6 +43,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun iniRecyclerView() {
+        registerForContextMenu(binding.recyclerGame)
         val recyclerView = binding.recyclerGame
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter =
@@ -70,14 +68,13 @@ class MainActivity : AppCompatActivity() {
         return when(item.itemId){
             101 -> {
                 val intent = Intent(this, AddGameActivity::class.java)
-                Log.i("Detail", item.groupId.toString())
-                intent.putExtra("ID", item.groupId)
+                intent.putExtra("ID", ProviderIdContextMenu.id)
                 intent.putExtra("IS_EDIT", true)
                 startActivity(intent)
                 true
             }
             102 -> {
-                GameProvider.gameList.removeAt(item.groupId)
+                sqLiteHelperGame.deleteGame(ProviderIdContextMenu.id)
                 this.onResume()
                 true
             }
