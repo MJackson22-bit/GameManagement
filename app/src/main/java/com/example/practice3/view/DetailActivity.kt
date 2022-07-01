@@ -2,8 +2,8 @@ package com.example.practice3.view
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
@@ -16,7 +16,8 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.example.practice3.R
 import com.example.practice3.databinding.ActivityDetailBinding
-import com.example.practice3.db.SQLiteHelperGame
+import com.example.practice3.db.helper.SQLiteHelperGame
+import com.example.practice3.db.helper.TableGameHelper
 import com.example.practice3.model.Game
 import com.google.android.material.snackbar.Snackbar
 
@@ -26,18 +27,20 @@ class DetailActivity : AppCompatActivity() {
     private var bundle: Bundle? = null
     private var id: Int? = 0
     private var game: Game? = null
+    lateinit var db: SQLiteDatabase
     private lateinit var sqLiteHelperGame: SQLiteHelperGame
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
         sqLiteHelperGame = SQLiteHelperGame(this)
+        db = sqLiteHelperGame.writableDatabase
         bundle = intent.extras
         id = bundle?.getInt("GAME_DETAIL")
         showDetail()
     }
     private fun showDetail() {
-        game = sqLiteHelperGame.getGame(id)
+        game = TableGameHelper.getGame(id, db)
         binding.tvName.text = game?.name.toString()
         binding.tvCategory.text = game?.category
         binding.tvCompany.text = game?.company
@@ -75,7 +78,7 @@ class DetailActivity : AppCompatActivity() {
                         .setPositiveButton(
                             R.string.eliminar
                         ) { _, _ ->
-                            sqLiteHelperGame.deleteGame(game?.id)
+                            TableGameHelper.deleteGame(game?.id, db)
                             it.finish()
                         }
                         .setNegativeButton(
